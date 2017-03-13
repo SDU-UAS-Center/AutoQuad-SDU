@@ -42,6 +42,9 @@
 #include <CoOS.h>
 #include <string.h>
 #include <stdio.h>
+#ifdef USE_SNIFFER_BOX
+#include "miniSniffer.h"
+#endif
 
 mavlinkStruct_t mavlinkData;
 mavlink_system_t mavlink_system;
@@ -166,6 +169,19 @@ void mavlinkDo(void) {
     if (mavlinkData.nextHeartbeat < micros) {
 	mavlinkSetSystemData();
 	mavlink_msg_heartbeat_send(MAVLINK_COMM_0, mavlinkData.sys_type, MAV_AUTOPILOT_AUTOQUAD, mavlinkData.sys_mode, mavlinkData.sys_nav_mode, mavlinkData.sys_state);
+#ifdef USE_SNIFFER_BOX
+        if ( MiniSnifferData.active == 1 ) {
+            if ( MiniSnifferData.newMessage == 1 ) {
+                mavlink_msg_detechtor_send(MAVLINK_COMM_0, MiniSnifferData.send_mav_msg.no2, MiniSnifferData.send_mav_msg.no2_voltage, MiniSnifferData.send_mav_msg.no2_aux_voltage, MiniSnifferData.send_mav_msg.so2, MiniSnifferData.send_mav_msg.so2_voltage, MiniSnifferData.send_mav_msg.so2_aux_voltage,
+                                  MiniSnifferData.send_mav_msg.no, MiniSnifferData.send_mav_msg.no2_voltage, MiniSnifferData.send_mav_msg.no_aux_voltage, MiniSnifferData.send_mav_msg.co2,
+                                  MiniSnifferData.send_mav_msg.temperature, MiniSnifferData.send_mav_msg.humidity, MiniSnifferData.send_mav_msg.grab, MiniSnifferData.send_mav_msg.timestamp);
+                MiniSnifferData.newMessage = 0;
+            }
+            if ( MiniSnifferData.newMessage == 0 ) {
+                SnifferSendToTX();
+            }
+        }
+#endif
 	mavlinkData.nextHeartbeat = micros + AQMAVLINK_HEARTBEAT_INTERVAL;
     }
 

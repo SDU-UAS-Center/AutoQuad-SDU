@@ -47,6 +47,9 @@
 #ifdef USE_SIGNALING
    #include "signaling.h"
 #endif
+#ifdef USE_SNIFFER_BOX
+  #include "miniSniffer.h"
+#endif
 #include <CoOS.h>
 
 digitalPin *tp;
@@ -92,6 +95,9 @@ void aqInit(void *pdata) {
     motorsInit();
     controlInit();
     gimbalInit();
+#ifdef USE_SNIFFER_BOX
+    SnifferInit();
+#endif
     runInit();
 
     info();
