@@ -64,9 +64,11 @@
 	#elif BOARD_REVISION == 6
 	    #define BOARD_HEADER_FILE "board_m4_r6.h"
 	#endif
-        #elif BOARD_VERSION == 10
+    #elif BOARD_VERSION == 10
 	#if BOARD_REVISION == 1
 	    #define BOARD_HEADER_FILE "board_X_r1.h"
+	#elif BOARD_REVISION == 2
+	    #define BOARD_HEADER_FILE "board_X_r2.h"
 	#endif
 
     #endif
