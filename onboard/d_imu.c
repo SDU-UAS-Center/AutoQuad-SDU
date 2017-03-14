@@ -183,6 +183,13 @@ static void dIMUCalcTempDiff(void) {
         i++;
     }
 #endif
+#ifdef DIMU_HAVE_MPU9250
+    if (mpu9250Data.enabled) {
+        temp += mpu9250Data.temp;
+        i++;
+    }
+#endif
+
 #ifdef DIMU_HAVE_MAX21100
     if (max21100Data.enabled) {
         temp += max21100Data.temp;
@@ -265,6 +272,10 @@ static void dIMUReadWriteCalib(void) {
 #ifdef DIMU_HAVE_MPU6000
     mpu6000Disable();
 #endif
+#ifdef DIMU_HAVE_MPU9250
+    mpu9250Disable();
+#endif
+
 #ifdef DIMU_HAVE_MAX21100
     max21100Disable();
 #endif
@@ -284,6 +295,9 @@ static void dIMUReadWriteCalib(void) {
 
 #ifdef DIMU_HAVE_MPU6000
     mpu6000Enable();
+#endif
+#ifdef DIMU_HAVE_MPU9250
+    mpu9250Enable();
 #endif
 #ifdef DIMU_HAVE_MAX21100
     max21100Enable();
@@ -322,6 +336,9 @@ static void dIMUTaskCode(void *unused) {
 #ifdef DIMU_HAVE_MPU6000
         mpu6000DrateDecode();
 #endif
+#ifdef DIMU_HAVE_MPU9250
+	mpu9250DrateDecode();
+#endif
 #ifdef DIMU_HAVE_MAX21100
         max21100DrateDecode();
 #endif
@@ -332,6 +349,9 @@ static void dIMUTaskCode(void *unused) {
         if (!(loops % (DIMU_OUTER_PERIOD/DIMU_INNER_PERIOD))) {
 #ifdef DIMU_HAVE_MPU6000
             mpu6000Decode();
+#endif
+#ifdef DIMU_HAVE_MPU9250
+            mpu9250Decode();
 #endif
 #ifdef DIMU_HAVE_MAX21100
             max21100Decode();
@@ -356,9 +376,13 @@ void dIMUInit(void) {
     TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
     TIM_OCInitTypeDef  TIM_OCInitStructure;
     NVIC_InitTypeDef NVIC_InitStructure;
+    memset((void *)&dImuData, 0, sizeof(dImuData));
 
 #ifdef DIMU_HAVE_MPU6000
     mpu6000PreInit();
+#endif
+#ifdef DIMU_HAVE_MPU9250
+    mpu9250PreInit();
 #endif
 #ifdef DIMU_HAVE_MAX21100
     max21100PreInit();
@@ -369,12 +393,28 @@ void dIMUInit(void) {
 #ifdef DIMU_HAVE_HMC5983
     hmc5983PreInit();
 #endif
+#ifdef DIMU_HAVE_LIS3MDL
+    lis3mdlPreInit();
+#endif
 #ifdef DIMU_HAVE_MS5611
     ms5611PreInit();
 #endif
 
 #ifdef DIMU_HAVE_MPU6000
     mpu6000Init();
+#endif
+#ifdef DIMU_HAVE_MPU9250
+    if (mpu9250Init()) {
+	AQ_NOTICE("DIMU: MPU9250 GYO/ACC init.\n");
+#if MPU9250_USE_AK8963
+	if (mpu9250Data.magInit)
+	    AQ_NOTICE("DIMU: AK8963 MAG init.\n");
+	else
+	    AQ_NOTICE("ERROR: AK8963 MAG init failed!\n");
+#endif
+    }
+    else
+	AQ_NOTICE("ERROR: MPU9250 GYO/ACC init failed!");
 #endif
 #ifdef DIMU_HAVE_MAX21100
     max21100Init();
@@ -385,8 +425,16 @@ void dIMUInit(void) {
     dIMUReadCalib();
 #endif
 #ifdef DIMU_HAVE_HMC5983
-    if (hmc5983Init() == 0)
-      AQ_NOTICE("DIMU: MAG sensor init failed!\n");
+    if (hmc5983Init())
+	AQ_NOTICE("DIMU: HMC5983 MAG init.\n");
+    else
+	AQ_NOTICE("DIMU: HMC5983 MAG init failed!\n");
+#endif
+#ifdef DIMU_HAVE_LIS3MDL
+    if (lis3mdlInit())
+	AQ_NOTICE("DIMU: LIS3MDL MAG init.\n");
+    else
+	AQ_NOTICE("DIMU: LIS3MDL MAG init failed!\n");
 #endif
 #ifdef DIMU_HAVE_MS5611
     if (ms5611Init() == 0)
@@ -440,6 +488,9 @@ void dIMUInit(void) {
 #ifdef DIMU_HAVE_MPU6000
     mpu6000Enable();
 #endif
+#ifdef DIMU_HAVE_MPU9250
+    mpu9250Enable();
+#endif
 #ifdef DIMU_HAVE_MAX21100
     max21100Enable();
 #endif
@@ -457,6 +508,9 @@ void dIMUInit(void) {
 
 #ifdef DIMU_HAVE_MPU6000
     mpu6600InitialBias();
+#endif
+#ifdef DIMU_HAVE_MPU9250
+    mpu9250InitialBias();
 #endif
 #ifdef DIMU_HAVE_MAX21100
     max21100InitialBias();

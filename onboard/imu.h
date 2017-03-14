@@ -35,51 +35,85 @@
 
 #ifdef USE_DIGITAL_IMU
 // using the Digital IMU as IMU
-#ifdef DIMU_HAVE_MAX21100
-#define IMU_DRATEX		max21100Data.dRateGyo[0]
-#define IMU_DRATEY		max21100Data.dRateGyo[1]
-#define IMU_DRATEZ		max21100Data.dRateGyo[2]
-#define IMU_RATEX		max21100Data.gyo[0]
-#define IMU_RATEY		max21100Data.gyo[1]
-#define IMU_RATEZ		max21100Data.gyo[2]
-#define IMU_RAW_RATEX   max21100Data.rawGyo[0]
-#define IMU_RAW_RATEY   max21100Data.rawGyo[1]
-#define IMU_RAW_RATEZ   max21100Data.rawGyo[2]
-#define IMU_ACCX		max21100Data.acc[0]
-#define IMU_ACCY		max21100Data.acc[1]
-#define IMU_ACCZ		max21100Data.acc[2]
-#define IMU_RAW_ACCX    max21100Data.rawAcc[0]
-#define IMU_RAW_ACCY    max21100Data.rawAcc[1]
-#define IMU_RAW_ACCZ    max21100Data.rawAcc[2]
-#else
-#define IMU_DRATEX		mpu6000Data.dRateGyo[0]
-#define IMU_DRATEY		mpu6000Data.dRateGyo[1]
-#define IMU_DRATEZ		mpu6000Data.dRateGyo[2]
-#define IMU_RATEX		mpu6000Data.gyo[0]
-#define IMU_RATEY		mpu6000Data.gyo[1]
-#define IMU_RATEZ		mpu6000Data.gyo[2]
-#define IMU_RAW_RATEX   mpu6000Data.rawGyo[0]
-#define IMU_RAW_RATEY   mpu6000Data.rawGyo[1]
-#define IMU_RAW_RATEZ   mpu6000Data.rawGyo[2]
-#define IMU_ACCX		mpu6000Data.acc[0]
-#define IMU_ACCY		mpu6000Data.acc[1]
-#define IMU_ACCZ		mpu6000Data.acc[2]
-#define IMU_RAW_ACCX    mpu6000Data.rawAcc[0]
-#define IMU_RAW_ACCY    mpu6000Data.rawAcc[1]
-#define IMU_RAW_ACCZ    mpu6000Data.rawAcc[2]
+  #ifdef DIMU_HAVE_MAX21100
+  #define IMU_DRATEX		max21100Data.dRateGyo[0]
+  #define IMU_DRATEY		max21100Data.dRateGyo[1]
+  #define IMU_DRATEZ		max21100Data.dRateGyo[2]
+  #define IMU_RATEX		max21100Data.gyo[0]
+  #define IMU_RATEY		max21100Data.gyo[1]
+  #define IMU_RATEZ		max21100Data.gyo[2]
+  #define IMU_RAW_RATEX   max21100Data.rawGyo[0]
+  #define IMU_RAW_RATEY   max21100Data.rawGyo[1]
+  #define IMU_RAW_RATEZ   max21100Data.rawGyo[2]
+  #define IMU_ACCX		max21100Data.acc[0]
+  #define IMU_ACCY		max21100Data.acc[1]
+  #define IMU_ACCZ		max21100Data.acc[2]
+  #define IMU_RAW_ACCX    max21100Data.rawAcc[0]
+  #define IMU_RAW_ACCY    max21100Data.rawAcc[1]
+  #define IMU_RAW_ACCZ    max21100Data.rawAcc[2]
+  #elif defined(DIMU_HAVE_MPU6000)
+  #define IMU_DRATEX		mpu6000Data.dRateGyo[0]
+  #define IMU_DRATEY		mpu6000Data.dRateGyo[1]
+  #define IMU_DRATEZ		mpu6000Data.dRateGyo[2]
+  #define IMU_RATEX		mpu6000Data.gyo[0]
+  #define IMU_RATEY		mpu6000Data.gyo[1]
+  #define IMU_RATEZ		mpu6000Data.gyo[2]
+  #define IMU_RAW_RATEX   mpu6000Data.rawGyo[0]
+  #define IMU_RAW_RATEY   mpu6000Data.rawGyo[1]
+  #define IMU_RAW_RATEZ   mpu6000Data.rawGyo[2]
+  #define IMU_ACCX		mpu6000Data.acc[0]
+  #define IMU_ACCY		mpu6000Data.acc[1]
+  #define IMU_ACCZ		mpu6000Data.acc[2]
+  #define IMU_RAW_ACCX    mpu6000Data.rawAcc[0]
+  #define IMU_RAW_ACCY    mpu6000Data.rawAcc[1]
+  #define IMU_RAW_ACCZ    mpu6000Data.rawAcc[2]
+  #elif defined(DIMU_HAVE_MPU9250)
+  #define IMU_DRATEX		mpu9250Data.dRateGyo[0]
+  #define IMU_DRATEY		mpu9250Data.dRateGyo[1]
+  #define IMU_DRATEZ		mpu9250Data.dRateGyo[2]
+  #define IMU_RATEX		mpu9250Data.gyo[0]
+  #define IMU_RATEY		mpu9250Data.gyo[1]
+  #define IMU_RATEZ		mpu9250Data.gyo[2]
+  #define IMU_RAW_RATEX		mpu9250Data.rawGyo[0]
+  #define IMU_RAW_RATEY		mpu9250Data.rawGyo[1]
+  #define IMU_RAW_RATEZ		mpu9250Data.rawGyo[2]
+  #define IMU_ACCX		mpu9250Data.acc[0]
+  #define IMU_ACCY		mpu9250Data.acc[1]
+  #define IMU_ACCZ		mpu9250Data.acc[2]
+  #define IMU_RAW_ACCX		mpu9250Data.rawAcc[0]
+  #define IMU_RAW_ACCY		mpu9250Data.rawAcc[1]
+  #define IMU_RAW_ACCZ		mpu9250Data.rawAcc[2]
+  #endif
+
+
+#if MPU9250_USE_AK8963 && !defined(DIMU_HAVE_LIS3MDL)
+   #define IMU_MAG_ENABLED		mpu9250Data.magEnabled
+   #define IMU_MAGX                 mpu9250Data.mag[0]
+   #define IMU_MAGY                 mpu9250Data.mag[1]
+   #define IMU_MAGZ                 mpu9250Data.mag[2]
+   #define IMU_RAW_MAGX		mpu9250Data.rawMag[0]
+   #define IMU_RAW_MAGY		mpu9250Data.rawMag[1]
+   #define IMU_RAW_MAGZ		mpu9250Data.rawMag[2]
 #endif
-#define IMU_MAGX		hmc5983Data.mag[0]
-#define IMU_MAGY		hmc5983Data.mag[1]
-#define IMU_MAGZ		hmc5983Data.mag[2]
-#define IMU_RAW_MAGX    hmc5983Data.rawMag[0]
-#define IMU_RAW_MAGY    hmc5983Data.rawMag[1]
-#define IMU_RAW_MAGZ    hmc5983Data.rawMag[2]
+
+#if defined(DIMU_HAVE_HMC5983)
+    #define IMU_MAGX		hmc59 83Data.mag[0]
+    #define IMU_MAGY		hmc5983Data.mag[1]
+    #define IMU_MAGZ		hmc5983Data.mag[2]
+    #define IMU_RAW_MAGX            hmc5983Data.rawMag[0]
+    #define IMU_RAW_MAGY            hmc5983Data.rawMag[1]
+    #define IMU_RAW_MAGZ            hmc5983Data.rawMag[2]
+    #define IMU_MAG_ENABLED         hmc5983Data.enabled
+#endif	// USE_DIGITAL_IMU
+
+#define AQ_MAG_ENABLED		(*imuData.magEnabled)
+
+
 #define IMU_TEMP		dImuData.temp
 #define IMU_LASTUPD		dImuData.lastUpdate
 #define AQ_OUTER_TIMESTEP	DIMU_OUTER_DT
 #define AQ_INNER_TIMESTEP	DIMU_INNER_DT
 #define AQ_PRESSURE		ms5611Data.pres
-#define AQ_MAG_ENABLED          hmc5983Data.enabled
 #endif	// USE_DIGITAL_IMU
 
 #ifndef USE_DIGITAL_IMU
@@ -114,6 +148,7 @@
 #endif
 
 typedef struct {
+    uint8_t *magEnabled;
     OS_FlagID dRateFlag;
     OS_FlagID sensorFlag;
     float sinRot, cosRot;

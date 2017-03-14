@@ -125,6 +125,8 @@
         <file file_name="board_dimu_v21.h"/>
         <file file_name="max21100.h"/>
         <file file_name="max21100.c"/>
+        <file file_name="mpu9250.c" />
+        <file file_name="mpu9250.h" />
       </folder>
       <folder Name="USB" file_name="">
         <file file_name="usbd_conf.h"/>

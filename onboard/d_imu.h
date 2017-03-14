@@ -24,13 +24,29 @@
 #include "rcc.h"
 #include <CoOS.h>
 
+#ifdef DIMU_HAVE_MPU6000
 #include "mpu6000.h"
+#endif
+#ifdef DIMU_HAVE_MPU9250
+#include "mpu9250.h"
+#endif
+#ifdef DIMU_HAVE_EEPROM
 #include "eeprom.h"
+#endif
+#ifdef DIMU_HAVE_HMC5983
 #include "hmc5983.h"
+#endif
+#ifdef DIMU_HAVE_LIS3MDL
+#include "lis3mdl.h"
+#endif
+//#ifdef DIMU_HAVE_MS5611
 #include "ms5611.h"
+//#endif
+#ifdef DIMU_HAVE_MAX21100
 #include "max21100.h"
+#endif
 
-#define DIMU_STACK_SIZE	    250
+#define DIMU_STACK_SIZE	    248     // must be evenly divisible by 8
 #define DIMU_PRIORITY	    11
 
 #define DIMU_OUTER_PERIOD   5000			    // us (200 Hz)

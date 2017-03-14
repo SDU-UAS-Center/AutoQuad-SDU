@@ -44,6 +44,7 @@
 #include "can.h"
 #include "analog.h"
 #include "canCalib.h"
+#include "usb.h"
 #ifdef USE_SIGNALING
    #include "signaling.h"
 #endif
@@ -67,6 +68,9 @@ void aqInit(void *pdata) {
     rtcInit();	    // have to do this first as it requires our microsecond timer to calibrate
     timerInit();    // now setup the microsecond timer before everything else
     sdioLowLevelInit();
+#ifdef COMM_USB_PORT
+    usbInit();
+#endif    
     filerInit();
     supervisorInit();
     configInit();

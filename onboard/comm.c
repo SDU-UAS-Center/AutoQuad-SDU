@@ -488,7 +488,7 @@ void commInit(void) {
     commData.commTask = CoCreateTask(commTaskCode, (void *)0, 5, &commTaskStack[COMM_STACK_SIZE-1], COMM_STACK_SIZE);
 
 #ifdef COMM_USB_PORT
-    usbInit();
+    //usbInit();
     commData.portTypes[COMM_USB_PORT] = COMM_PORT_TYPE_USB;
 #endif
     commData.initialized = 1;

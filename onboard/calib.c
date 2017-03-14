@@ -319,9 +319,9 @@ void calibrate(void) {
         return;
 
 #ifdef USE_DIGITAL_IMU
-		vec[0] = hmc5983Data.rawMag[0];
-		vec[1] = hmc5983Data.rawMag[1];
-		vec[2] = hmc5983Data.rawMag[2];
+		vec[0] = IMU_RAW_MAGX;
+		vec[1] = IMU_RAW_MAGY;
+		vec[2] = IMU_RAW_MAGZ;
 #else
 		vec[0] = adcData.voltages[3];
 		vec[1] = adcData.voltages[4];

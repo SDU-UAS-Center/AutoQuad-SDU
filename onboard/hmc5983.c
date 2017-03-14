@@ -17,7 +17,7 @@
 */
 
 #include "config.h"
-#ifdef HAS_DIGITAL_IMU
+#if defined(HAS_DIGITAL_IMU) && defined(DIMU_HAVE_HMC5983)
 #include "imu.h"
 #include "hmc5983.h"
 #include "aq_timer.h"
