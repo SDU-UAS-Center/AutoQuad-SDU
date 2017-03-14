@@ -97,7 +97,7 @@
 #endif
 
 #if defined(DIMU_HAVE_HMC5983)
-    #define IMU_MAGX		hmc59 83Data.mag[0]
+    #define IMU_MAGX		hmc5983Data.mag[0]
     #define IMU_MAGY		hmc5983Data.mag[1]
     #define IMU_MAGZ		hmc5983Data.mag[2]
     #define IMU_RAW_MAGX            hmc5983Data.rawMag[0]
