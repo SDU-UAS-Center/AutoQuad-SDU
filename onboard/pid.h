@@ -50,5 +50,5 @@ extern void pidStartDump(void);
 extern void pidStopDump(void);
 extern void pidDump(pidStruct_t *pid);
 extern void pidZeroIntegral(pidStruct_t *pid, float pv, float iState);
-
+extern void pidZero(pidStruct_t *pid, float *p, float *i, float *d, float *f, float *pMax, float *iMax, float *dMax, float *oMax, int16_t *pTrim, int16_t *iTrim, int16_t *dTrim, int16_t *fTrim);
 #endif

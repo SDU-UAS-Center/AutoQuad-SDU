@@ -398,3 +398,18 @@ void pidZeroIntegral(pidStruct_t *pid, float pv, float iState) {
     pid->pv_1 = pv;
     pid->pv_2 = pv;
 }
+
+void pidZero(pidStruct_t *pid, float *p, float *i, float *d, float *f, float *pMax, float *iMax, float *dMax, float *oMax, int16_t *pTrim, int16_t *iTrim, int16_t *dTrim, int16_t *fTrim) {
+    pid->pMax = pMax;
+    pid->iMax = iMax;
+    pid->dMax = dMax;
+    pid->oMax = oMax;
+    pid->pGain = p;
+    pid->iGain = i;
+    pid->dGain = d;
+    pid->fGain = f;
+    pid->pTrim = pTrim;
+    pid->iTrim = iTrim;
+    pid->dTrim = dTrim;
+    pid->fTrim = fTrim;
+}

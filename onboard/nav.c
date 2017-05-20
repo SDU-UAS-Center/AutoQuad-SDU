@@ -74,6 +74,17 @@ void navSetHoldHeading(float targetHeading) {
         navData.holdHeading = targetHeading;
 }
 
+void navSetTargetHeading(float targetHeading) {
+    // signbit() returns true if negative sign
+    if (signbit(targetHeading))
+        // use targetHeading as relative to bearing to target
+        navData.targetHeading = compassNormalize(targetHeading);
+    else
+        // use targetHeading as absolute heading
+        navData.targetHeading = targetHeading;
+}
+
+
 void navSetHomeCurrent(void) {
     navData.homeLeg.type = NAV_LEG_GOTO;
     navData.homeLeg.relativeAlt = 0;
@@ -366,6 +377,36 @@ void navNavigate(void) {
         // keep up with changing altitude
         navSetHoldAlt(ALTITUDE, 0);
     }
+
+    if ((motorsData.throttle == 0.0f && (navData.mode == NAV_STATUS_MISSION))) {
+         navUkfSetHereAsPositionTarget();
+         navSetHoldAlt(ALTITUDE, 0);
+         navSetHoldHeading(AQ_YAW);
+         navSetTargetHeading(AQ_YAW);
+         
+         //speed
+         pidZero(navData.speedNPID, &p[NAV_SPEED_P], &p[NAV_SPEED_I], 0, 0, &p[NAV_SPEED_PM], &p[NAV_SPEED_IM], 0, &p[NAV_SPEED_OM], 0, 0, 0, 0);
+         pidZero(navData.speedEPID, &p[NAV_SPEED_P], &p[NAV_SPEED_I], 0, 0, &p[NAV_SPEED_PM], &p[NAV_SPEED_IM], 0, &p[NAV_SPEED_OM], 0, 0, 0, 0);
+         //pos
+         pidZero(navData.distanceNPID, &p[NAV_DIST_P], &p[NAV_DIST_I], 0, 0, &p[NAV_DIST_PM], &p[NAV_DIST_IM], 0, &p[NAV_DIST_OM], 0, 0, 0, 0);
+         pidZero(navData.distanceEPID, &p[NAV_DIST_P], &p[NAV_DIST_I], 0, 0, &p[NAV_DIST_PM], &p[NAV_DIST_IM], 0, &p[NAV_DIST_OM], 0, 0, 0, 0);
+         //alt
+         pidZero(navData.altSpeedPID, &p[NAV_ALT_SPED_P], &p[NAV_ALT_SPED_I], 0, 0, &p[NAV_ALT_SPED_PM], &p[NAV_ALT_SPED_IM], 0, &p[NAV_ALT_SPED_OM], 0, 0, 0, 0);
+         pidZero(navData.altPosPID, &p[NAV_ALT_POS_P], &p[NAV_ALT_POS_I], 0, 0, &p[NAV_ALT_POS_PM], &p[NAV_ALT_POS_IM], 0, &p[NAV_ALT_POS_OM], 0, 0, 0, 0);
+
+         navData.targetHoldSpeedAlt = 0.0f;
+         navData.holdSpeedAlt = 0.0f;
+         navData.verticalOverride = 0;
+
+         navData.holdCourse = 0.0f;
+         navData.holdDistance = 0.0f;
+         navData.holdSpeedN = 0.0f;
+         navData.holdSpeedE = 0.0f;
+         navData.holdTiltN = 0.0f;
+         navData.holdTiltE = 0.0f;
+         
+    }
+
 
     // ceiling set ?, 0 is disable
     if (navData.ceilingAlt) {
