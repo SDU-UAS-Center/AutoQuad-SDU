@@ -252,7 +252,7 @@ navMission_t *navLoadLeg(uint8_t leg) {
 
 // Set fixType as a rough indication of GPS data quality
 void navSetFixType(void) {
-    unsigned long posTimeDlta = IMU_LASTUPD - gpsData.lastPosUpdate;
+    unsigned long posTimeDlta = abs(IMU_LASTUPD - gpsData.lastPosUpdate);
     float hAccMsk = gpsData.hAcc + runData.accMask;
 
     if (posTimeDlta < NAV_MAX_GPS_AGE && hAccMsk < NAV_MIN_GPS_ACC)
