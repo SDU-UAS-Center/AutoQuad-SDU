@@ -490,7 +490,7 @@ void navNavigate(void) {
                 fabsf(navData.holdAlt - ALTITUDE) < curLeg->targetRadius) ||
             // orbit test
                 (curLeg->type == NAV_LEG_ORBIT &&
-                fabsf(navData.holdDistance - navData.currentWpt->targetRadius) <= 2.0f && 
+                fabsf(navData.holdDistance - curLeg->targetRadius) <= 2.0f && 
                 fabsf(navData.holdAlt - ALTITUDE) <= 2.0f) ||
             // takeoff test
                 (curLeg->type == NAV_LEG_TAKEOFF &&
