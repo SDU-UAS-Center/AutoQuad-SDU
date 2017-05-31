@@ -335,8 +335,9 @@ enum pwmPorts {
 #define EEPROM_SPI		    SPI1
 #define EEPROM_CS_PORT		    GPIOE
 #define EEPROM_CS_PIN		    GPIO_Pin_12
-#define EEPROM_SIZE		    0x8000  // 512Kb/64KB
+#define EEPROM_SIZE		    0x08000  // 512Kb/64KB
 #define EEPROM_BLOCK_SIZE	    0x0080  // 128B
+//#define EEPROM_BLOCK_SIZE	    0x0100  // 256B
 
 
 #define CANx			    CAN1

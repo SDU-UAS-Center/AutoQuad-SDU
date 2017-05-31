@@ -305,10 +305,14 @@ enum pwmPorts {
 #define DIMU_ORIENT_MAG_Y	    (+in[1])
 #define DIMU_ORIENT_MAG_Z	    (-in[2])
 #else
-#define DIMU_ORIENT_MAG_X	    (+in[0])
-#define DIMU_ORIENT_MAG_Y	    (+in[1])
-#define DIMU_ORIENT_MAG_Z	    (-in[2])
+#define DIMU_ORIENT_MAG_X	    (-in[0])
+#define DIMU_ORIENT_MAG_Y	    (-in[1])
+#define DIMU_ORIENT_MAG_Z	    (+in[2])
 #endif
+
+//#define DIMU_ORIENT_MAG_X	    (+in[0])
+//#define DIMU_ORIENT_MAG_Y	    (+in[1])
+//#define DIMU_ORIENT_MAG_Z	    (-in[2])
 
 // v7, IMU facing up
 //#define DIMU_ORIENT_ACC_X	    (+in[0])
