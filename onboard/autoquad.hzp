@@ -252,9 +252,8 @@
         <file file_name="event.c" />
         <file file_name="flag.c" />
         <file file_name="hook.c">
-          <configuration Name="THUMB Debug" build_exclude_from_build="Yes" />
           <configuration
-            Name="THUMB Release"
+            Name="Release-AQX.r2-Quatos"
             build_exclude_from_build="Yes" />
         </file>
         <file file_name="kernelHeap.c" />
@@ -347,19 +346,9 @@
         </folder>
       </folder>
     </folder>
-    <configuration
-      Name="Release"
-      c_preprocessor_definitions="STARTUP_FROM_RESET"
-      gcc_debugging_level="Level 2"
-      gcc_optimization_level="Level 2"
-      gcc_strip_symbols="No" />
-    <configuration
-      Name="Debug"
-      c_preprocessor_definitions="USE_FULL_ASSERT"
-      gcc_optimization_level="Level 1" />
     <folder
       Name="STM STD Periph Drivers"
-      exclude="stm32f4xx_fmc.c"
+      exclude="stm32f4xx_fsmc.c;stm32f4xx_fmc.c"
       filter="*.c;*.h"
       path="../STM32F4xx_DSP_StdPeriph_Lib_V1.3.0/Libraries/STM32F4xx_StdPeriph_Driver/"
       recurse="Yes" />
@@ -369,8 +358,18 @@
       filter="*.c;*.h"
       path="../STM32F4xx_DSP_StdPeriph_Lib_V1.3.0/Libraries/CMSIS/DSP_Lib/Source"
       recurse="Yes" />
+    <configuration
+      Name="AQXr2"
+      Target="STM32F427VG"
+      arm_architecture="v7EM"
+      arm_core_type="Cortex-M4"
+      arm_fpu_type="FPv4-SP-D16"
+      arm_simulator_memory_simulation_parameter="STM32F427VG;0x100000;0x30000"
+      linker_memory_map_file="$(TargetsDir)/STM32/STM32F427VG_MemoryMap.xml" />
   </project>
-  <configuration Name="THUMB Debug" inherited_configurations="THUMB;Debug" />
+  <configuration
+    Name="Common"
+    c_preprocessor_definitions="NESTED_INTERRUPTS;CTL_TASKING;USE_STDPERIPH_DRIVER" />
   <configuration
     Name="THUMB"
     Platform="ARM"
@@ -379,24 +378,105 @@
     c_preprocessor_definitions="__THUMB"
     hidden="Yes" />
   <configuration
-    Name="Debug"
-    build_debug_information="Yes"
-    c_preprocessor_definitions="DEBUG"
+    Name="Release"
+    c_preprocessor_definitions="NDEBUG;STARTUP_FROM_RESET"
     gcc_debugging_level="Level 2"
-    gcc_optimization_level="None"
+    gcc_optimization_level="Level 2"
+    gcc_strip_symbols="No"
     hidden="Yes"
     link_include_startup_code="No" />
   <configuration
-    Name="THUMB Release"
-    inherited_configurations="THUMB;Release" />
-  <configuration
-    Name="Release"
-    c_preprocessor_definitions="NDEBUG"
-    gcc_debugging_level="Level 1"
+    Name="Debug"
+    build_debug_information="Yes"
+    c_preprocessor_definitions="DEBUG;USE_FULL_ASSERT"
+    gcc_debugging_level="Level 2"
     gcc_optimization_level="Level 1"
     hidden="Yes"
     link_include_startup_code="No" />
   <configuration
-    Name="Common"
-    c_preprocessor_definitions="NESTED_INTERRUPTS;CTL_TASKING;USE_STDPERIPH_DRIVER" />
+    Name="AQ6"
+    c_preprocessor_definitions="BOARD_VERSION=6"
+    hidden="Yes" />
+  <configuration
+    Name="M4"
+    c_preprocessor_definitions="BOARD_VERSION=8"
+    hidden="Yes" />
+  <configuration
+    Name="r0"
+    c_preprocessor_definitions="BOARD_REVISION=0"
+    hidden="Yes" />
+  <configuration
+    Name="r1"
+    c_preprocessor_definitions="BOARD_REVISION=1"
+    hidden="Yes" />
+  <configuration
+    Name="r2"
+    c_preprocessor_definitions="BOARD_REVISION=2"
+    hidden="Yes" />
+  <configuration
+    Name="r3"
+    c_preprocessor_definitions="BOARD_REVISION=3"
+    hidden="Yes" />
+  <configuration
+    Name="r5"
+    c_preprocessor_definitions="BOARD_REVISION=5"
+    hidden="Yes" />
+  <configuration
+    Name="r6"
+    c_preprocessor_definitions="BOARD_REVISION=6"
+    hidden="Yes" />
+  <configuration
+    Name="DIMU11"
+    c_preprocessor_definitions="DIMU_VERSION=11"
+    hidden="Yes" />
+  <configuration
+    Name="AQX"
+    c_preprocessor_definitions="BOARD_VERSION=10"
+    hidden="Yes" />
+  <configuration
+    Name="AQXr2"
+    c_preprocessor_definitions="BOARD_VERSION=11"
+    hidden="Yes" />
+  <configuration
+    Name="quatos"
+    c_preprocessor_definitions="USE_QUATOS"
+    hidden="Yes" />
+  <configuration
+    Name="clipquad-defaults"
+    c_preprocessor_definitions="CONFIG_DEFAULTS_FILE=&quot;config_default_clipquad.h&quot;"
+    hidden="Yes" />
+  <configuration
+    Name="Release-AQ6.r0-AIMU-PID"
+    inherited_configurations="THUMB;Release" />
+  <configuration
+    Name="Debug-AQ6.r0-AIMU-PID"
+    inherited_configurations="THUMB;Debug" />
+  <configuration
+    Name="Release-AQ6.r1-DIMU-Quatos"
+    inherited_configurations="AQ6;r1;DIMU11;quatos;Release;THUMB" />
+  <configuration
+    Name="Release-AQ6.r1-DIMU-PID"
+    inherited_configurations="AQ6;r1;DIMU11;Release;THUMB" />
+  <configuration
+    Name="Release-M4.r5-Quatos"
+    inherited_configurations="M4;quatos;r5;Release;THUMB;External ESC" />
+  <configuration
+    Name="Release-M4.r6-Quatos"
+    inherited_configurations="External ESC;M4;quatos;r6;Release;THUMB" />
+  <configuration
+    Name="Release-M4.r6-PID"
+    inherited_configurations="M4;r6;Release;THUMB" />
+  <configuration
+    Name="Release-ClipQuad-Quatos"
+    inherited_configurations="Release-AQ6.r1-DIMU-Quatos;clipquad-defaults" />
+  <configuration
+    Name="External ESC"
+    c_preprocessor_definitions="USE_EXTERNAL_ESC"
+    hidden="Yes" />
+  <configuration
+    Name="Release-AQX.r1-Quatos"
+    inherited_configurations="AQX;r1;quatos;Release;THUMB" />
+  <configuration
+    Name="Release-AQX.r2-Quatos"
+    inherited_configurations="AQXr2;quatos;r2;Release;THUMB" />
 </solution>

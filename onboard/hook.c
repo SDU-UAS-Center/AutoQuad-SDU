@@ -28,15 +28,14 @@
  * @details    This function is system IDLE task code.	 
  *******************************************************************************
  */
+/*
 void CoIdleTask(void* pdata)
 {
-    /* Add your codes here */
     for(; ;) 
     {
-        /* Add your codes here */
     }
 }
-
+*/
 
 /**
  *******************************************************************************

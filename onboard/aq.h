@@ -27,7 +27,6 @@
 #define USE_MAVLINK
 #define USE_PRES_ALT		 	// uncomment to use pressure altitude instead of GPS
 #define USE_SIGNALING                   // uncomment to use external signaling events and ports
-//#define USE_QUATOS
 //#define USE_EXTERNAL_ESC              // uncomment to use external ESCs on board version 8
 
 #ifndef BOARD_VERSION
@@ -67,7 +66,9 @@
     #elif BOARD_VERSION == 10
 	#if BOARD_REVISION == 1
 	    #define BOARD_HEADER_FILE "board_X_r1.h"
-	#elif BOARD_REVISION == 2
+	#endif
+    #elif BOARD_VERSION == 11
+	#if BOARD_REVISION == 2
 	    #define BOARD_HEADER_FILE "board_X_r2.h"
 	#endif
 

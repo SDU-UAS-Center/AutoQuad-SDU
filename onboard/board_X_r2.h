@@ -35,7 +35,7 @@
 #define SDIO_TRANSFER_CLK_DIV           ((uint8_t)0x00)	// SDIO Data Transfer Frequency (24MHz max)
 
 // The order of GPIO ports and pins needs to match PWM port order.
-#define GPIO_PORTS(_pfx)   GPIO_TypeDef * _pfx ## Ports[] = { \
+#define PWM_PORTS   const GPIO_TypeDef *pwmPorts[] = { \
     GPIOE, \
     GPIOE, \
     GPIOE, \
@@ -53,7 +53,8 @@
     GPIOB, \
 };
 
-#define GPIO_PINS(_pfx)    uint16_t _pfx ## Pins[] = { \
+
+#define PWM_PINS    const uint32_t pwmPins[] = { \
     GPIO_Pin_9,  \
     GPIO_Pin_11, \
     GPIO_Pin_13, \
@@ -69,6 +70,24 @@
     GPIO_Pin_1,  \
     GPIO_Pin_4,  \
     GPIO_Pin_5,  \
+};
+
+#define PWM_PINSOURCES	const uint16_t pwmPinSources[] = { \
+    GPIO_PinSource9,  \
+    GPIO_PinSource11, \
+    GPIO_PinSource13, \
+    GPIO_PinSource14, \
+    GPIO_PinSource15, \
+    GPIO_PinSource14, \
+    GPIO_PinSource5,  \
+    GPIO_PinSource6,  \
+    GPIO_PinSource2, \
+    GPIO_PinSource3, \
+    GPIO_PinSource0,  \
+    GPIO_PinSource1,  \
+    GPIO_PinSource1,  \
+    GPIO_PinSource4,  \
+    GPIO_PinSource5,  \
 };
 
 // note: TIM2 PWM ports can also be assigned to alternate pins:
@@ -114,6 +133,24 @@ enum pwmPorts {
     TIM3,  /* PWM14 */ \
     TIM3,  /* PWM15 */ \
 };
+#define	PWM_AFS	    const uint8_t pwmAFs[] = { \
+    GPIO_AF_TIM1, \
+    GPIO_AF_TIM1, \
+    GPIO_AF_TIM1, \
+    GPIO_AF_TIM1, \
+    GPIO_AF_TIM4, \
+    GPIO_AF_TIM4, \
+    GPIO_AF_TIM9, \
+    GPIO_AF_TIM2, \
+    GPIO_AF_TIM2, \
+    GPIO_AF_TIM3, \
+    GPIO_AF_TIM3,  \
+    GPIO_AF_TIM2, \
+    GPIO_AF_TIM3, \
+    GPIO_AF_TIM3, \
+};
+
+
 
 #define PWM_TIMERCHANNELS   const uint8_t pwmTimerChannels[] = { \
     TIM_Channel_1, \
@@ -282,7 +319,7 @@ enum pwmPorts {
 #define MPU9250_ACC_SCALE           8     // g      (2, 4, 8, 16)
 #define MPU9250_GYO_SCALE           1000  // deg/s  (250, 500, 1000, 2000)
 
-#define DIMU_ROTATION		    90.0f  // degrees
+//#define DIMU_ROTATION		    90.0f  // degrees
 
 // IMU facing down
 #define DIMU_ORIENT_ACC_X	    (+in[0])

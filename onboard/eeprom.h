@@ -21,14 +21,20 @@
 
 #include "spi.h"
 
-#define DIMU_EEPROM_SPI_BAUD	    SPI_BaudRatePrescaler_4	// 10.5 MHz
+#if BOARD_VERSION == 10
+  #if BOARD_REVISION == 2
+  #define DIMU_EEPROM_SPI_BAUD	    SPI_BaudRatePrescaler_4	// 10.5 MHz
+  #define DIMU_EEPROM_SIZE	    0x08000
+  #define DIMU_EEPROM_BLOCK_SIZE    0x0080
+  #define DIMU_EEPROM_MASK	    0x7fff
+  #endif
+#else
+  #define DIMU_EEPROM_SPI_BAUD	    SPI_BaudRatePrescaler_4	// 10.5 MHz
+  #define DIMU_EEPROM_SIZE	    0x8000
+  #define DIMU_EEPROM_BLOCK_SIZE    0x40
+  #define DIMU_EEPROM_MASK	    0x7fff
+#endif
 
-#define DIMU_EEPROM_SIZE	    0x8000
-#define DIMU_EEPROM_BLOCK_SIZE	    0x40
-#define DIMU_EEPROM_MASK	    0x7fff
-//#define DIUM_EEPROM_SIZE		    0x10000
-//#define DIUM_EEPROM_BLOCK_SIZE	    0x80
-//#define DIUM_EEPROM_MASK		    0xffff
 
 #define EEPROM_WREN		    0b0110
 #define EEPROM_WRDI		    0b0100
