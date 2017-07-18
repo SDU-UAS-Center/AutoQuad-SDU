@@ -255,6 +255,9 @@
           <configuration
             Name="Release-AQX.r2-Quatos"
             build_exclude_from_build="Yes" />
+          <configuration
+            Name="Release-AQX.r1-Quatos"
+            build_exclude_from_build="Yes" />
         </file>
         <file file_name="kernelHeap.c" />
         <file file_name="mbox.c" />
