@@ -32,11 +32,6 @@
 #define SDIO_POWER_PIN			GPIO_Pin_5
 #define SDIO_DETECT_GPIO_PORT		GPIOB
 #define SDIO_DETECT_PIN			GPIO_Pin_1
-#define SDIO_DETECT_PORT_SOURCE		EXTI_PortSourceGPIOB
-#define SDIO_DETECT_PIN_SOURCE		EXTI_PinSource1
-#define SDIO_DETECT_IRQ			EXTI1_IRQn
-#define SDIO_DETECT_HANDLER		EXTI1_IRQHandler
-#define SDIO_DETECT_EXTI_LINE		EXTI_Line1
 #define SDIO_TRANSFER_CLK_DIV           ((uint8_t)0x00)	// SDIO Data Transfer Frequency (24MHz max)
 //#define SDIO_TRANSFER_CLK_DIV           ((uint8_t)0x02)	// SDIO Data Transfer Frequency (12MHz max)
 //#define SDIO_TRANSFER_CLK_DIV           ((uint8_t)0x04)	// SDIO Data Transfer Frequency (6MHz max)
@@ -208,11 +203,7 @@ enum pwmPorts {
 #define COMM_PORT3		UART8	    // J16, expansion header
 
 #define RC1_UART		UART4
-#if BOARD_REVISION == 1
-#define RC2_UART		UART7
-#elif BOARD_REVISION == 2
-#define RC2_UART		UART6
-#endif
+//#define RC2_UART		UART6
 
 #define GPS_USART		USART2
 
