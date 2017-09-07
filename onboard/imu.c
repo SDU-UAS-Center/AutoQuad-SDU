@@ -55,9 +55,12 @@ void imuQuasiStatic(int n) {
 }
 
 void imuCalcRot(void) {
-    float rotAngle;
+    float rotAngle = 0.0f;
 
-    rotAngle = p[IMU_ROT] * DEG_TO_RAD;
+#ifdef DIMU_ROTATION
+    rotAngle = DIMU_ROTATION * DEG_TO_RAD;
+#endif
+    rotAngle += p[IMU_ROT] * DEG_TO_RAD;
 
     imuData.sinRot = sinf(rotAngle);
     imuData.cosRot = cosf(rotAngle);

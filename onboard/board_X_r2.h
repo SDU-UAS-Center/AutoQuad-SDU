@@ -319,7 +319,7 @@ enum pwmPorts {
 #define MPU9250_ACC_SCALE           8     // g      (2, 4, 8, 16)
 #define MPU9250_GYO_SCALE           1000  // deg/s  (250, 500, 1000, 2000)
 
-//#define DIMU_ROTATION		    90.0f  // degrees
+#define DIMU_ROTATION		    90.0f  // degrees
 
 // IMU facing down
 #define DIMU_ORIENT_ACC_X	    (+in[0])

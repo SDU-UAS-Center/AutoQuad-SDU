@@ -236,9 +236,6 @@ enum pwmPorts {
 #define RADIO_RC2_SELECT_PORT	GPIOD
 #define RADIO_RC2_SELECT_PIN	GPIO_Pin_10
 
-#define DAC_TP_PORT		GPIOA
-#define DAC_TP_PIN		GPIO_Pin_4
-
 #define ANALOG_VIN_RTOP         10.0f
 #define ANALOG_VIN_RBOT         1.0f
 #define ANALOG_EXT_VOLT_RTOP	140.0f
@@ -281,6 +278,8 @@ enum pwmPorts {
 
 #define MPU9250_ACC_SCALE           8     // g      (2, 4, 8, 16)
 #define MPU9250_GYO_SCALE           1000  // deg/s  (250, 500, 1000, 2000)
+
+#define DIMU_ROTATION			90.0f  //degrees
 
 // IMU facing down
 #define DIMU_ORIENT_ACC_X	    (+in[0])
