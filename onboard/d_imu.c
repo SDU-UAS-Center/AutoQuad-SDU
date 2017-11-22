@@ -437,8 +437,10 @@ void dIMUInit(void) {
 	AQ_NOTICE("DIMU: LIS3MDL MAG init failed!\n");
 #endif
 #ifdef DIMU_HAVE_MS5611
-    if (ms5611Init() == 0)
-      AQ_NOTICE("DIMU: PRES sensor init failed!\n");
+    if (ms5611Init())
+      AQ_NOTICE("DIMU: MS5611 BARO init.\n");
+    else
+      AQ_NOTICE("DIMU: MS5611 BARO init failed!\n");
 #endif
     dIMUTaskStack = aqStackInit(DIMU_STACK_SIZE, "DIMU");
 

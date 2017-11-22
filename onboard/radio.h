@@ -26,7 +26,7 @@
 #define RADIO_STACK_SIZE        120
 #define RADIO_PRIORITY          25
 
-#define RADIO_NUM               3       // max number of RC radios
+#define RADIO_NUM               2       // max number of RC radios
 #define RADIO_MAX_CHANNELS      18
 #define RADIO_UPDATE_TIMEOUT    50000	// maximum time in micros between valid radio updates before signal is considered unstable;
 #define RADIO_LAST_UPDATE       (*radioData.lastUpdate)

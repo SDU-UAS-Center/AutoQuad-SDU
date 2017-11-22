@@ -39,7 +39,12 @@ serialPort_t *serialPort5;
 #ifdef SERIAL_UART6_PORT
 serialPort_t *serialPort6;
 #endif
-
+#ifdef SERIAL_UART7_PORT
+serialPort_t *serialPort7;
+#endif
+#ifdef SERIAL_UART8_PORT
+serialPort_t *serialPort8;
+#endif
 serialPort_t *serialSTDIO;
 
 int _serialStartTxDMA(serialPort_t *s, void *buf, int size, serialTxDMACallback_t *txDMACallback, void *txDMACallbackParam) {
@@ -586,6 +591,158 @@ serialPort_t *serialUSART6(unsigned int flowControl, unsigned int rxBufSize, uns
 }
 #endif
 
+#ifdef SERIAL_UART7_PORT
+serialPort_t *serialUSART7(unsigned int flowControl, unsigned int rxBufSize, unsigned int txBufSize) {
+    GPIO_InitTypeDef GPIO_InitStructure;
+#if defined(UART7_IRQn) && (!defined(SERIAL_UART7_RX_DMA_ST) || defined(SERIAL_UART7_TX_PIN))
+    NVIC_InitTypeDef NVIC_InitStructure;
+#endif
+    serialPort_t *s;
+
+    s = serialPort4 = (serialPort_t *)aqCalloc(1, sizeof(serialPort_t));
+
+    GPIO_StructInit(&GPIO_InitStructure);
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_25MHz;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+    GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+    GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
+
+    // Enable USART7 clock
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_UART7, ENABLE);
+
+#ifdef SERIAL_UART7_RX_PIN
+    s->rxBufSize = (rxBufSize) ? rxBufSize : SERIAL_DEFAULT_RX_BUFSIZE;
+    s->rxBuf = (volatile unsigned char*)aqCalloc(1, s->rxBufSize);
+
+    GPIO_PinAFConfig(SERIAL_UART7_PORT, SERIAL_UART7_RX_SOURCE, GPIO_AF_UART7);
+
+    GPIO_InitStructure.GPIO_Pin = SERIAL_UART7_RX_PIN;
+    GPIO_Init(SERIAL_UART7_PORT, &GPIO_InitStructure);
+
+#ifdef SERIAL_UART7_RX_DMA_ST
+    s->rxDMAStream = SERIAL_UART7_RX_DMA_ST;
+    s->rxDMAChannel = SERIAL_UART7_RX_DMA_CH;
+    s->rxDmaFlags = SERIAL_UART7_RX_TC_FLAG | SERIAL_UART7_RX_HT_FLAG | SERIAL_UART7_RX_TE_FLAG | SERIAL_UART7_RX_DM_FLAG | SERIAL_UART7_RX_FE_FLAG;
+#elif defined(UART7_IRQn)
+    // otherwise use interrupts
+    NVIC_InitStructure.NVIC_IRQChannel = UART7_IRQn;
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 2;
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+    NVIC_Init(&NVIC_InitStructure);
+#endif	// SERIAL_UART7_RX_DMA_ST
+#endif	// SERIAL_UART7_RX_PIN
+
+#ifdef SERIAL_UART7_TX_PIN
+    s->txBufSize = txBufSize;
+    s->txBuf = (volatile unsigned char*)aqCalloc(1, s->txBufSize);
+
+    GPIO_PinAFConfig(SERIAL_UART7_PORT, SERIAL_UART7_TX_SOURCE, GPIO_AF_UART7);
+
+    GPIO_InitStructure.GPIO_Pin = SERIAL_UART7_TX_PIN;
+    GPIO_Init(SERIAL_UART7_PORT, &GPIO_InitStructure);
+
+#ifdef SERIAL_UART7_TX_DMA_ST
+    s->txDMAStream = SERIAL_UART7_TX_DMA_ST;
+    s->txDMAChannel = SERIAL_UART7_TX_DMA_CH;
+    s->txDmaFlags = SERIAL_UART7_TX_TC_FLAG | SERIAL_UART7_TX_HT_FLAG | SERIAL_UART7_TX_TE_FLAG | SERIAL_UART7_TX_DM_FLAG | SERIAL_UART7_TX_FE_FLAG;
+
+    // Enable the DMA global Interrupt
+    NVIC_InitStructure.NVIC_IRQChannel = SERIAL_UART7_TX_IRQn;
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 2;
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+    NVIC_Init(&NVIC_InitStructure);
+#elif defined(UART7_IRQn)
+    // otherwise use interrupts
+    NVIC_InitStructure.NVIC_IRQChannel = UART7_IRQn;
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 2;
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+    NVIC_Init(&NVIC_InitStructure);
+#endif	// SERIAL_UART7_TX_DMA_ST
+#endif	// SERIAL_UART7_TX_PIN
+
+    return s;
+}
+#endif // SERIAL_UART7_PORT
+
+#ifdef SERIAL_UART8_PORT
+serialPort_t *serialUSART8(unsigned int flowControl, unsigned int rxBufSize, unsigned int txBufSize) {
+    GPIO_InitTypeDef GPIO_InitStructure;
+#if defined(UART8_IRQn) && (!defined(SERIAL_UART8_RX_DMA_ST) || defined(SERIAL_UART8_TX_PIN))
+    NVIC_InitTypeDef NVIC_InitStructure;
+#endif
+    serialPort_t *s;
+
+    s = serialPort4 = (serialPort_t *)aqCalloc(1, sizeof(serialPort_t));
+
+    GPIO_StructInit(&GPIO_InitStructure);
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_25MHz;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF;
+    GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+    GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
+
+    // Enable USART8 clock
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_UART8, ENABLE);
+
+#ifdef SERIAL_UART8_RX_PIN
+    s->rxBufSize = (rxBufSize) ? rxBufSize : SERIAL_DEFAULT_RX_BUFSIZE;
+    s->rxBuf = (volatile unsigned char*)aqCalloc(1, s->rxBufSize);
+
+    GPIO_PinAFConfig(SERIAL_UART8_PORT, SERIAL_UART8_RX_SOURCE, GPIO_AF_UART8);
+
+    GPIO_InitStructure.GPIO_Pin = SERIAL_UART8_RX_PIN;
+    GPIO_Init(SERIAL_UART8_PORT, &GPIO_InitStructure);
+
+#ifdef SERIAL_UART8_RX_DMA_ST
+    s->rxDMAStream = SERIAL_UART8_RX_DMA_ST;
+    s->rxDMAChannel = SERIAL_UART8_RX_DMA_CH;
+    s->rxDmaFlags = SERIAL_UART8_RX_TC_FLAG | SERIAL_UART8_RX_HT_FLAG | SERIAL_UART8_RX_TE_FLAG | SERIAL_UART8_RX_DM_FLAG | SERIAL_UART8_RX_FE_FLAG;
+#elif defined(UART8_IRQn)
+    // otherwise use interrupts
+    NVIC_InitStructure.NVIC_IRQChannel = UART8_IRQn;
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 2;
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+    NVIC_Init(&NVIC_InitStructure);
+#endif	// SERIAL_UART8_RX_DMA_ST
+#endif	// SERIAL_UART8_RX_PIN
+
+#ifdef SERIAL_UART8_TX_PIN
+    s->txBufSize = txBufSize;
+    s->txBuf = (volatile unsigned char*)aqCalloc(1, s->txBufSize);
+
+    GPIO_PinAFConfig(SERIAL_UART8_PORT, SERIAL_UART8_TX_SOURCE, GPIO_AF_UART8);
+
+    GPIO_InitStructure.GPIO_Pin = SERIAL_UART8_TX_PIN;
+    GPIO_Init(SERIAL_UART8_PORT, &GPIO_InitStructure);
+
+#ifdef SERIAL_UART8_TX_DMA_ST
+    s->txDMAStream = SERIAL_UART8_TX_DMA_ST;
+    s->txDMAChannel = SERIAL_UART8_TX_DMA_CH;
+    s->txDmaFlags = SERIAL_UART8_TX_TC_FLAG | SERIAL_UART8_TX_HT_FLAG | SERIAL_UART8_TX_TE_FLAG | SERIAL_UART8_TX_DM_FLAG | SERIAL_UART8_TX_FE_FLAG;
+
+    // Enable the DMA global Interrupt
+    NVIC_InitStructure.NVIC_IRQChannel = SERIAL_UART8_TX_IRQn;
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 2;
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+    NVIC_Init(&NVIC_InitStructure);
+#elif defined(UART8_IRQn)
+    // otherwise use interrupts
+    NVIC_InitStructure.NVIC_IRQChannel = UART8_IRQn;
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 2;
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+    NVIC_Init(&NVIC_InitStructure);
+#endif	// SERIAL_UART8_TX_DMA_ST
+#endif	// SERIAL_UART8_TX_PIN
+
+    return s;
+}
+#endif 
+
 serialPort_t *serialOpen(USART_TypeDef *USARTx, unsigned int baud, uint16_t flowControl, unsigned int rxBufSize, unsigned int txBufSize) {
     DMA_InitTypeDef DMA_InitStructure;
     serialPort_t *s = 0;
@@ -624,6 +781,18 @@ serialPort_t *serialOpen(USART_TypeDef *USARTx, unsigned int baud, uint16_t flow
 #ifdef SERIAL_UART6_PORT
     if (USARTx == USART6) {
 	s = serialUSART6(flowControl, rxBufSize, txBufSize);
+    }
+#endif
+
+#ifdef SERIAL_UART7_PORT
+    if (USARTx == UART7) {
+	s = serialUSART7(flowControl, rxBufSize, txBufSize);
+    }
+#endif
+
+#ifdef SERIAL_UART8_PORT
+    if (USARTx == UART8) {
+	s = serialUSART8(flowControl, rxBufSize, txBufSize);
     }
 #endif
 
@@ -785,6 +954,14 @@ void serialWatch(void) {
 #ifdef SERIAL_UART6_PORT
     if (serialPort6 && serialAvailable(serialPort6))
 	CoSetFlag(serialPort6->waitFlag);
+#endif
+#ifdef SERIAL_UART7_PORT
+    if (serialPort7 && serialAvailable(serialPort7))
+	CoSetFlag(serialPort7->waitFlag);
+#endif
+#ifdef SERIAL_UART8_PORT
+    if (serialPort8 && serialAvailable(serialPort8))
+	CoSetFlag(serialPort8->waitFlag);
 #endif
 }
 
@@ -1033,3 +1210,81 @@ void USART6_IRQHandler(void) {
     }
 }
 #endif	// SERIAL_UART6_PORT
+
+// UART7 TX DMA
+#ifdef SERIAL_UART7_PORT
+#ifdef SERIAL_UART7_TX_DMA_ST
+void SERIAL_UART7_TX_DMA_IT(void) {
+    serialPort_t *s = serialPort7;
+
+    DMA_ClearFlag(s->txDMAStream, s->txDmaFlags);
+
+    s->txDmaRunning = 0;
+
+    s->txDMACallback(s->txDMACallbackParam);
+}
+#endif
+
+// UART7 global IRQ handler (might not be used)
+#if defined(UART7_IRQn)
+void UART7_IRQHandler(void) {
+    serialPort_t *s = serialPort4;
+    uint16_t SR = s->USARTx->SR;
+
+    if (SR & USART_FLAG_RXNE) {
+	s->rxBuf[s->rxHead] = s->USARTx->DR;
+	s->rxHead = (s->rxHead + 1) % s->rxBufSize;
+    }
+
+    if (SR & USART_FLAG_TXE) {
+	if (s->txTail != s->txHead) {
+	    s->USARTx->DR = s->txBuf[s->txTail];
+	    s->txTail = (s->txTail + 1) % s->txBufSize;
+	}
+	// EOT
+	else {
+	    USART_ITConfig(s->USARTx, USART_IT_TXE, DISABLE);
+	}
+    }
+}
+#endif  // defined(UART7_IRQn)
+#endif	// SERIAL_UART7_PORT
+
+// UART8 TX DMA
+#ifdef SERIAL_UART8_PORT
+#ifdef SERIAL_UART8_TX_DMA_ST
+void SERIAL_UART8_TX_DMA_IT(void) {
+    serialPort_t *s = serialPort8;
+
+    DMA_ClearFlag(s->txDMAStream, s->txDmaFlags);
+
+    s->txDmaRunning = 0;
+
+    s->txDMACallback(s->txDMACallbackParam);
+}
+#endif
+
+// USART8 global IRQ handler (might not be used)
+#if defined(UART8_IRQn)
+void UART8_IRQHandler(void) {
+    serialPort_t *s = serialPort8;
+    uint16_t SR = s->USARTx->SR;
+
+    if (SR & USART_FLAG_RXNE) {
+	s->rxBuf[s->rxHead] = s->USARTx->DR;
+	s->rxHead = (s->rxHead + 1) % s->rxBufSize;
+    }
+
+    if (SR & USART_FLAG_TXE) {
+	if (s->txTail != s->txHead) {
+	    s->USARTx->DR = s->txBuf[s->txTail];
+	    s->txTail = (s->txTail + 1) % s->txBufSize;
+	}
+	// EOT
+	else {
+	    USART_ITConfig(s->USARTx, USART_IT_TXE, DISABLE);
+	}
+    }
+}
+#endif  // defined(UART8_IRQn)
+#endif	// SERIAL_UART8_PORT

@@ -169,11 +169,6 @@ void radioInit(void) {
                 uart = RC2_UART;
                 break;
 #endif
-#ifdef RC3_UART
-            case 2:
-                uart = RC3_UART;
-                break;
-#endif
             default:
                 uart = 0;
                 break;
